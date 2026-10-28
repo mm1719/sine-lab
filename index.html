@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#087f73">
+  <meta name="description" content="拖一拖，讓正弦波動起來。用四個互動實驗理解 sin 函數的垂直伸縮、水平伸縮、水平平移與垂直平移。">
+  <title>Sine Lab｜正弦波互動實驗室</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='12' fill='%23087f73'/%3E%3Cpath d='M5 20C10 1 15 1 20 20S30 39 35 20' stroke='white' stroke-width='3' fill='none'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="#" aria-label="Sine Lab 首頁"><span class="brand-icon"><svg viewBox="0 0 32 28" aria-hidden="true"><path d="M1 14C6-2 10-2 16 14S26 30 31 14"/></svg></span><span>Sine<span class="brand-light">Lab</span><small>正弦波互動實驗室</small></span></a>
+    <div class="header-actions"><button id="guide-open" class="text-button"><span aria-hidden="true">ⓘ</span> 使用指南</button><span class="small-divider"></span><span class="lesson-tag">三角函數・圖形變換</span></div>
+  </header>
+  <main>
+    <section class="intro">
+      <div><div class="eyebrow"><span></span> A LITTLE CHANGE, A NEW WAVE</div><h1>讓函數，<em>動起來。</em></h1><p>拖動一個參數，觀察一條曲線。從看見變化，到理解規律。</p></div>
+      <div class="formula-overview" aria-label="一般式 y 等於 A 乘以 sin 括號 B 乘以 x 減 h，再加 k"><span class="formula-caption">一條正弦波，四種變化</span><div class="math">y = <span class="parameter-a">A</span> sin[<span class="parameter-b">B</span>(x − <span class="parameter-h">h</span>)] + <span class="parameter-k">k</span></div><div class="formula-key"><span><i class="dot a"></i>高度</span><span><i class="dot b"></i>疏密</span><span><i class="dot h"></i>左右</span><span><i class="dot k"></i>上下</span></div></div>
+    </section>
+    <nav class="experiment-tabs" role="tablist" aria-label="選擇互動實驗">
+      <button id="tab-a" role="tab" aria-controls="experiment" aria-selected="true" data-mode="a"><span class="tab-number">01</span><span>垂直伸縮<small>改變 A</small></span><span class="tab-icon" aria-hidden="true">↕</span></button>
+      <button id="tab-b" role="tab" aria-controls="experiment" aria-selected="false" tabindex="-1" data-mode="b"><span class="tab-number">02</span><span>水平伸縮<small>改變 B</small></span><span class="tab-icon" aria-hidden="true">↔</span></button>
+      <button id="tab-h" role="tab" aria-controls="experiment" aria-selected="false" tabindex="-1" data-mode="h"><span class="tab-number">03</span><span>水平平移<small>改變 h</small></span><span class="tab-icon" aria-hidden="true">⇢</span></button>
+      <button id="tab-k" role="tab" aria-controls="experiment" aria-selected="false" tabindex="-1" data-mode="k"><span class="tab-number">04</span><span>垂直平移<small>改變 k</small></span><span class="tab-icon" aria-hidden="true">⇡</span></button>
+      <button id="tab-all" role="tab" aria-controls="experiment" aria-selected="false" tabindex="-1" data-mode="all"><span class="tab-number">05</span><span>自由實驗<small>組合四種變化</small></span><span class="tab-icon" aria-hidden="true">✧</span></button>
+    </nav>
+    <section id="experiment" role="tabpanel" aria-labelledby="tab-a">
+      <div class="experiment-layout">
+        <div class="graph-card">
+          <div class="graph-top"><div><span class="section-kicker" id="graph-kicker">實驗 01 / 垂直伸縮</span><div id="live-formula" class="live-formula math"></div></div><div class="units" role="group" aria-label="角度單位"><button data-unit="rad" class="active" aria-pressed="true">弧度</button><button data-unit="deg" aria-pressed="false">角度</button></div></div>
+          <div class="graph-legend"><label><input type="checkbox" id="show-original" checked><span class="line-sample original"></span>原始 y = sin x</label><span><span class="line-sample current"></span>變換後</span><label><input type="checkbox" id="show-guides" checked>輔助線</label><span id="target-legend" hidden><span class="line-sample target"></span>目標曲線</span></div>
+          <div class="plot-shell"><svg id="plot" viewBox="0 0 900 440" role="img" aria-labelledby="plot-title plot-desc"><title id="plot-title">正弦函數互動座標圖</title><desc id="plot-desc">灰色虛線為原始正弦函數，綠色實線為變換後函數。可使用右側或下方滑桿調整圖形。</desc></svg><div class="plot-tools" role="group" aria-label="圖形視野"><button id="zoom-in" aria-label="放大水平視野" title="放大水平視野">＋</button><button id="zoom-out" aria-label="縮小水平視野" title="縮小水平視野">−</button><button id="fit-cycle" title="顯示完整一週期" aria-label="顯示完整一週期">↔</button><button id="reset-view" title="還原視野" aria-label="還原視野">⌂</button></div></div>
+          <div class="plot-foot"><span id="drag-instruction"><span class="drag-dot"></span>拖曳綠色控制點，或試試右側滑桿</span><span id="unit-note">x 軸單位：弧度</span></div>
+          <div class="metrics"><div><span>振幅 <small>｜離中線的距離</small></span><strong id="metric-amplitude"></strong></div><div><span>週期 <small>｜重複一次的長度</small></span><strong id="metric-period"></strong></div><div><span>中線 <small>｜波形的中心</small></span><strong id="metric-midline"></strong></div></div>
+        </div>
+        <aside class="control-card">
+          <div class="control-heading"><span id="mode-label" class="pill">EXPERIMENT 01</span><button id="reset" class="text-button" title="重設本關參數">↺ 重設</button></div>
+          <h2 id="mode-title"></h2><p id="mode-description" class="mode-description"></p>
+          <div id="controls"></div>
+          <div id="presets" class="presets" aria-label="快速比較"></div>
+          <button id="animate" class="animate-button" aria-pressed="false"><span id="animate-icon">▷</span><span id="animate-text">播放變化</span><span class="animate-trail">觀察連續變化</span></button>
+          <div class="observation"><span class="observation-label"><span aria-hidden="true">◉</span> 現在，你看見了什麼？</span><p id="observation-text" aria-live="polite"></p></div>
+          <div id="rule" class="rule"></div>
+        </aside>
+      </div>
+      <div class="learning-row">
+        <section class="challenge-card" aria-labelledby="challenge-heading"><div class="challenge-icon" aria-hidden="true">◎</div><div class="challenge-content"><div class="challenge-header"><h3 id="challenge-heading">換你試試</h3><div class="task-navigation"><button id="task-prev" aria-label="上一個任務">‹</button><span id="task-number"></span><button id="task-next" aria-label="下一個任務">›</button></div></div><p id="task-text"></p><div class="challenge-actions"><button id="check-task" class="primary-button">檢查我的圖形 <span aria-hidden="true">↗</span></button><button id="hint-button" class="text-button" aria-expanded="false">給我一點提示</button></div><div id="task-feedback" role="status"></div><p id="task-hint" hidden></p></div></section>
+        <section class="think-card"><span class="section-kicker">先猜一猜，再動手</span><h3 id="think-question"></h3><details id="think-details"><summary>展開觀察重點 <span aria-hidden="true">＋</span></summary><p id="think-answer"></p></details></section>
+      </div>
+      <details class="concept-note"><summary><span>容易搞混的地方</span><strong>sin(2x − π)，到底往右移多少？</strong><span aria-hidden="true">＋</span></summary><div class="concept-content"><div class="math">sin(2x − π) = sin[2(x − π/2)]</div><p>先把 x 的係數 2 提出來，才看得出括號裡的位移。相對於 sin(2x)，這條曲線向右移 <strong>π/2（90°）</strong>，週期是 <strong>π（180°）</strong>。若寫成 A sin(Bx + C) + k，水平位移就是 h = −C/B（B ≠ 0）。</p><button id="load-example" class="text-button">把這個例子放進實驗室 →</button></div></details>
+    </section>
+    <footer><span class="footer-brand">Sine Lab <span>/</span> 把公式變成看得見的直覺。</span><span>拖動 · 觀察 · 想一想</span></footer>
+  </main>
+  <dialog id="guide"><div class="dialog-header"><span class="eyebrow">QUICK START</span><button id="guide-close" class="icon-button" aria-label="關閉使用指南">×</button></div><h2>從一個小變化開始。</h2><ol><li><strong>選一個實驗。</strong>前四關各改一個參數，最後一關可同時調整四個。</li><li><strong>先猜，再拖。</strong>拖動滑桿或圖上的綠色控制點，和灰色原始曲線比較。滑桿可用方向鍵微調。</li><li><strong>看看數字。</strong>公式、振幅、週期與中線會同步更新。弧度／角度可隨時切換。</li><li><strong>完成一個小任務。</strong>按「檢查我的圖形」得到回饋；自由實驗中，試著與橘色曲線重合。</li></ol><div class="guide-tip">給老師的小提示：先用「播放變化」建立直覺，再讓學生自己操作並說明原因。每關的參數會暫時保留，重新整理頁面後回到初始狀態。</div><p class="guide-note">本頁專注 B > 0 的水平伸縮；B = 0 時變成常數，B < 0 會再加入水平翻轉。</p><button id="guide-start" class="primary-button">開始探索 →</button></dialog>
+  <script type="module" src="app.js"></script>
+</body>
+</html>
