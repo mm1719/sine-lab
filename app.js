@@ -4,7 +4,8 @@ const $=id=>document.getElementById(id);
 const initial=()=>({a:1,b:1,h:0,k:0});
 const states=Object.fromEntries(['a','b','h','k','all'].map(key=>[key,initial()]));
 const taskIndex={a:0,b:0,h:0,k:0,all:0};
-let mode='a',unit='rad',xMin=-2*PI,xMax=2*PI,playing=false,timer=null,direction=1,drag=null,geometry=null;
+const DEFAULT_X_EXTENT=4*PI;
+let mode='a',unit='rad',xMin=-DEFAULT_X_EXTENT,xMax=DEFAULT_X_EXTENT,playing=false,timer=null,direction=1,drag=null,geometry=null;
 let showOriginal=true,showGuides=true;
 const label=x=>angleLabel(x,unit);
 const eq=(a,b)=>Math.abs(a-b)<1e-5;
@@ -138,7 +139,7 @@ function changeParameter(key,value){
   resetFeedback();render();
 }
 function stopAnimation(){playing=false;clearInterval(timer);timer=null;$('animate').setAttribute('aria-pressed','false');$('animate-icon').textContent='▷';$('animate-text').textContent=mode==='all'?'播放水平平移':'播放變化'}
-function resetView(){xMin=-2*PI;xMax=2*PI;renderGraph()}
+function resetView(){xMin=-DEFAULT_X_EXTENT;xMax=DEFAULT_X_EXTENT;renderGraph()}
 document.querySelectorAll('[data-mode]').forEach(btn=>{
   btn.addEventListener('click',()=>switchMode(btn.dataset.mode));
   btn.addEventListener('keydown',e=>{const modes=['a','b','h','k','all'];let index=modes.indexOf(mode);if(e.key==='ArrowRight')index=(index+1)%5;else if(e.key==='ArrowLeft')index=(index+4)%5;else if(e.key==='Home')index=0;else if(e.key==='End')index=4;else return;e.preventDefault();switchMode(modes[index]);$('tab-'+modes[index]).focus()});
